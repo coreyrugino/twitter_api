@@ -27,7 +27,7 @@ class Tweets extends React.Component{
       data: { body: this.refs.tweetText.value }
     }).success( data => {
       let tweets = this.state.tweets;
-      tweets.push(data);
+      tweets.unshift(data);
       this.refs.tweetText;
       this.setState({tweets});
       this.refs.tweetText.value = null;
