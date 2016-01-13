@@ -3,6 +3,7 @@ class Tweets extends React.Component{
     super(props);
     this.submitTweet = this.submitTweet.bind(this)
     this.getTweets = this.getTweets.bind(this)
+    this.search = this.search.bind(this)
     this.state = {tweets: []};
   }
 
@@ -32,6 +33,17 @@ class Tweets extends React.Component{
       this.refs.tweetText.value = null;
     });
   }
+  search(){
+    $.ajax({
+      url: '/tweets_search',
+      type: 'GET',
+      data: { user: this.refs.user.value, text: this.refs.text.value }
+    }).success( data => {
+
+
+      this.setState({tweets: data})
+    })
+  }
 
   render(){
     let tweets = this.state.tweets.map( tweet => {
@@ -41,7 +53,13 @@ class Tweets extends React.Component{
     return(<div>
             <h1 className="yellow">Twitter</h1>
             <input type='text' ref='tweetText' placeholder="whats on your mind."/>
-            <button onClick={this.submitTweet}>Submit</button>
+            <button onClick={this.submitTweet}>Tweet</button>
+            <hr />
+            <input className='col s5 ' type='text' ref='user' placeholder="User"/>
+            <input className='col s5 offset-s2' type='text' ref='text' placeholder="Text"/>
+
+            <button onClick={this.search}>Search</button>
+            <button onClick={this.getTweets}>myTweets</button>
             <hr />
             <h3 className='center-align'>Tweets:</h3>
             {tweets}
